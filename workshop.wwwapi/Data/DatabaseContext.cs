@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using workshop.wwwapi.Models;
@@ -15,7 +16,7 @@ namespace workshop.wwwapi.Data
             this.Database.SetConnectionString(_connectionString);
             this.Database.EnsureCreated();
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
             //TODO: Appointment Key etc.. Add Here
             modelBuilder.Entity<Appointment>()
@@ -28,6 +29,18 @@ namespace workshop.wwwapi.Data
                       .HasKey(p => p.Id);
 
             //TODO: Seed Data Here
+
+            modelBuilder.Entity<Patient>()
+            .HasData(
+                new List<Patient>
+                {
+                    new Patient { Id = 1, FullName = "bob" },
+                    new Patient { Id = 2, FullName = "Son of bob" }
+                }
+              
+             );
+            
+  
 
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
