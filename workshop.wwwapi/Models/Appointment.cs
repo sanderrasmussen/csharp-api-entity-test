@@ -3,6 +3,7 @@
 namespace workshop.wwwapi.Models
 {
     //TODO: decorate class/columns accordingly
+
     public class Appointment
     {
         

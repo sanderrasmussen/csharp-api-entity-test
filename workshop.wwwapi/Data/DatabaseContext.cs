@@ -11,13 +11,21 @@ namespace workshop.wwwapi.Data
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            _connectionString = configuration.GetValue<string>("ConnectionStrings:DefaultConnectionString")!;
+            _connectionString = configuration.GetValue<string>("ConnectionStrings:DefaultConnection")!;
+            this.Database.SetConnectionString(_connectionString);
             this.Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //TODO: Appointment Key etc.. Add Here
-            
+            modelBuilder.Entity<Appointment>()
+                .HasKey(a => new { a.PatientId, a.DoctorId, a.Booking });
+
+            modelBuilder.Entity<Doctor>()
+                .HasKey(d =>  d.Id);
+
+            modelBuilder.Entity<Patient>()
+                      .HasKey(p => p.Id);
 
             //TODO: Seed Data Here
 
