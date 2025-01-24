@@ -23,7 +23,7 @@ namespace workshop.wwwapi.Data
                 .HasKey(a => new { a.PatientId, a.DoctorId, a.Booking });
 
             modelBuilder.Entity<Doctor>()
-                .HasKey(d =>  d.Id);
+                .HasKey(d => d.Id);
 
             modelBuilder.Entity<Patient>()
                       .HasKey(p => p.Id);
@@ -37,11 +37,16 @@ namespace workshop.wwwapi.Data
                     new Patient { Id = 1, FullName = "bob" },
                     new Patient { Id = 2, FullName = "Son of bob" }
                 }
-              
-             );
-            
-  
 
+             );
+            modelBuilder.Entity<Doctor>()
+           .HasData(
+           new List<Doctor>
+           {
+                new Doctor { Id = 1, FullName= "John the ripper" },
+                new Doctor { Id = 2, FullName = "Dexter" }
+            }
+           );
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
