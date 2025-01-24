@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using workshop.wwwapi.Data;
+using workshop.wwwapi.DTO;
 using workshop.wwwapi.Models;
 
 namespace workshop.wwwapi.Repository
@@ -11,9 +12,12 @@ namespace workshop.wwwapi.Repository
         {
             _databaseContext = db;
         }
-        public async Task<IEnumerable<Patient>> GetPatients()
+        public async Task<IEnumerable<PatientDTO>> GetPatients()
         {
-            return await _databaseContext.Patients.ToListAsync();
+            var patientsDTO = new List<PatientDTO>();
+            var patients = await _databaseContext.Patients.ToListAsync();
+            patients.ForEach(p => patientsDTO.Add(new PatientDTO(p))); //converting each Patient to PatientDTO
+            return patientsDTO;
         }
         public async Task<IEnumerable<Doctor>> GetDoctors()
         {
@@ -22,6 +26,13 @@ namespace workshop.wwwapi.Repository
         public async Task<IEnumerable<Appointment>> GetAppointmentsByDoctor(int id)
         {
             return await _databaseContext.Appointments.Where(a => a.DoctorId==id).ToListAsync();
+        }
+
+        public async Task<PatientDTO> GetPatient(int id)
+        {
+            var patient = await _databaseContext.Patients.FindAsync(id);
+            
+            return new PatientDTO(patient);
         }
     }
 }
