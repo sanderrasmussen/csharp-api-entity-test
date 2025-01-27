@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using workshop.wwwapi.Models;
+//To ecport : dotnet ef migrations add InitialCreate
 
 namespace workshop.wwwapi.Data
 {
@@ -18,7 +19,7 @@ namespace workshop.wwwapi.Data
         }
         protected override async void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //TODO: Appointment Key etc.. Add Here
+            //defining primary keys
             modelBuilder.Entity<Appointment>()
                 .HasKey(a => new { a.PatientId, a.DoctorId, a.Booking });
 
@@ -26,7 +27,29 @@ namespace workshop.wwwapi.Data
                 .HasKey(d => d.Id);
 
             modelBuilder.Entity<Patient>()
-                      .HasKey(p => p.Id);
+                .HasKey(p => p.Id);
+
+            //defining relations
+            modelBuilder.Entity<Appointment>()
+                 .HasOne(a => a.Patient)
+                 .WithMany(a => a.Appointments)
+                 .HasForeignKey(a => a.PatientId);
+
+            modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.Doctor)
+                .WithMany(a => a.Appointments)
+                .HasForeignKey(a => a.DoctorId)
+                .IsRequired();
+
+            modelBuilder.Entity<Doctor>()
+                .HasMany(a => a.Appointments)
+                .WithOne(a => a.Doctor)
+                .HasForeignKey(a => a.DoctorId);
+
+            modelBuilder.Entity<Patient>()
+                .HasMany(a => a.Appointments)
+                .WithOne(a => a.Patient)
+                .HasForeignKey(a => a.PatientId);
 
             //TODO: Seed Data Here
 
@@ -47,6 +70,15 @@ namespace workshop.wwwapi.Data
                 new Doctor { Id = 2, FullName = "Dexter" }
             }
            );
+            modelBuilder.Entity<Appointment>()
+            .HasData(
+            new List<Appointment>
+            {
+                    new Appointment { Booking = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc), DoctorId=1, PatientId=2 },
+                    new Appointment { Booking = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc), DoctorId=2, PatientId=1 }
+            }
+            );
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

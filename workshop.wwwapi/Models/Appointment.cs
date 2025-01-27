@@ -14,6 +14,11 @@ namespace workshop.wwwapi.Models
         public int DoctorId { get; set; }
         [Column("PatientId")]
         public int PatientId { get; set; }
+        [NotMapped]
+        public Doctor? Doctor { get; set; }
+        [NotMapped]
+        public Patient? Patient { get; set; }
+
 
     }
 }

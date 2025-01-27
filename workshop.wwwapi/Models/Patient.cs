@@ -14,5 +14,7 @@ namespace workshop.wwwapi.Models
         public int Id { get; set; }
         [Column("FullName")]
         public string FullName { get; set; }
+        [NotMapped]
+        public List<Appointment> Appointments { get; set; }
     }
 }
