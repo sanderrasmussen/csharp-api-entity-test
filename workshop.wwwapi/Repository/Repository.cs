@@ -62,11 +62,11 @@ namespace workshop.wwwapi.Repository
             Doctor doctor = doctors.Find(x=> x.Id==id);
             return new DoctorDTO(doctor);
         }
-        public async Task<IEnumerable<DoctorDTO>> CreateDoctor(int id, string fullname)
+        public async Task<IEnumerable<DoctorDTO>> CreateDoctor( string fullname)
         {
-            Doctor doctor = new Doctor { Id=id, FullName= fullname};
+            Doctor doctor = new Doctor { FullName= fullname};
             _databaseContext.Doctors.Add(doctor);
-
+            await _databaseContext.SaveChangesAsync();
             var doctorsDTO = new List<DoctorDTO>();
             var doctors = await _databaseContext.Doctors.Include(a => a.Appointments).ThenInclude(a => a.Patient).ToListAsync();
             doctors.ForEach(d => doctorsDTO.Add(new DoctorDTO(d)));

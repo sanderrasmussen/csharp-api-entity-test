@@ -21,7 +21,7 @@ namespace workshop.wwwapi.Repository
 
         public Task<DoctorDTO> GetDoctor(int id);
 
-        public Task<IEnumerable<DoctorDTO>> CreateDoctor(int id, string fullname);
+        public Task<IEnumerable<DoctorDTO>> CreateDoctor( string fullname);
 
         public Task<IEnumerable<AppointmentDTO>> CreateAppointment(int doctorid, int patientid, DateTime datetime);
 
