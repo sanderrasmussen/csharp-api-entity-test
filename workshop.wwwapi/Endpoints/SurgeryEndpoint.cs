@@ -10,10 +10,16 @@ namespace workshop.wwwapi.Endpoints
         {
             var surgeryGroup = app.MapGroup("surgery");
 
-            surgeryGroup.MapGet("/patients", GetPatients);
+         
             surgeryGroup.MapGet("/doctors", GetDoctors);
+            surgeryGroup.MapGet("/doctor/{id}", GetDoctor);
+
+
             surgeryGroup.MapGet("/appointmentsbydoctor/{id}", GetAppointmentsByDoctor);
+            surgeryGroup.MapGet("/appointments", GetAppointments);
+
             surgeryGroup.MapGet("/patient{id}", GetPatient);
+            surgeryGroup.MapGet("/patients", GetPatients);
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         public static async Task<IResult> GetPatients(IRepository repository)
@@ -21,9 +27,14 @@ namespace workshop.wwwapi.Endpoints
             return TypedResults.Ok(await repository.GetPatients());
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
+        public static async Task<IResult> GetAppointments(IRepository repository)
+        {
+            return TypedResults.Ok(await repository.GetAppointments());
+        }
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public static async Task<IResult> GetDoctors(IRepository repository)
         {
-            return TypedResults.Ok(await repository.GetPatients());
+            return TypedResults.Ok(await repository.GetDoctors());
         }
         [ProducesResponseType(StatusCodes.Status200OK)]
         public static async Task<IResult> GetAppointmentsByDoctor(IRepository repository, int id)
@@ -33,6 +44,14 @@ namespace workshop.wwwapi.Endpoints
         public static async Task<IResult> GetPatient(IRepository repo , int id)
         {
             return TypedResults.Ok(await repo.GetPatient(id));
+        }
+        public static async Task<IResult> CreateDoctor (IRepository repository)
+        {
+            return TypedResults.Ok(await repository.GetDoctors());
+        }
+        public static async Task<IResult> GetDoctor(IRepository repository, int id)
+        {
+            return TypedResults.Ok(await repository.GetDoctor(id));
         }
     }
 }

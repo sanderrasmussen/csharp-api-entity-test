@@ -3,22 +3,21 @@ using workshop.wwwapi.Models;
 
 namespace workshop.wwwapi.DTO
 {
-    public class PatientDTO
+    public class DoctorDTO
     {
-        private List<Patient> patient;
+        [Column("Id")]
 
         public int Id { get; set; }
         public string FullName { get; set; }
         public List<string> Appointments { get; set; } = new List<string>();
-        public PatientDTO() { }
-        public PatientDTO(Patient patient)
+        public DoctorDTO() { }
+        public DoctorDTO(Doctor doctor)
         {
-            Id = patient.Id;
-            FullName = patient.FullName;
+            Id = doctor.Id;
+            FullName = doctor.FullName;
             //making string representation of Appointments
-            patient.Appointments.ForEach(a => Appointments.Add($"Patient: {FullName}, Doctor: {a.Doctor.FullName}, Time: {a.Booking}"));
+            
+            doctor.Appointments.ForEach(a => Appointments.Add($"Patient: {a.Patient.FullName}, Doctor: {FullName}, Time: {a.Booking}"));
         }
-
     }
-    
 }

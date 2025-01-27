@@ -75,7 +75,7 @@ namespace workshop.wwwapi.Data
             new List<Appointment>
             {
                     new Appointment { Booking = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc), DoctorId=1, PatientId=2 },
-                    new Appointment { Booking = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc), DoctorId=2, PatientId=1 }
+                    new Appointment { Booking = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc), DoctorId=2, PatientId=1}
             }
             );
 
